@@ -1,0 +1,42 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired":{
+        "major": 3,
+        "minor": 22,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "vcpkg",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            }
+        },
+        {
+            "name": "default",
+            "displayName": "Default Config",
+            "inherits": "vcpkg"
+        },
+        {
+            "name": "debug",
+            "displayName": "Debug Config",
+            "inherits": "vcpkg",
+            "cacheVariables": {
+                  "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "opengl",
+            "displayName": "OpenGL Config",
+            "description": "Configure build to use OpenGL instead of Vulkan (Not yet supported)",
+            "hidden": true,
+            "inherits": "default",
+            "cacheVariables":{
+                "SYLVER_USE_OPENGL": true
+            }
+        }
+    ]
+}

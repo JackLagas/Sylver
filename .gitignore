@@ -1,0 +1,13 @@
+
+# Build Files
+out/
+build/
+.cache/
+vcpkg_installed/
+
+// Generated Files
+*.log
+
+# IDE Dirs
+.vscode/
+.vs/
