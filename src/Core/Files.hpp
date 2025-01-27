@@ -7,6 +7,7 @@
 
 #include <filesystem>
 
+
 #if defined(SYLVER_PLATFORM_WINDOWS)
 #include <window.h>
 #elif defined(SYLVER_PLATFORM_LINUX)
@@ -90,7 +91,7 @@ namespace Sylver {
                 return s_ExecutablePath;
             }
 
-            static inline std::filesystem::path RelativeExecutable(std::string& path) {
+            static inline std::filesystem::path RelativeExecutable(const std::string& path) {
                 return s_ExecutablePath / path;
             }
             static inline std::filesystem::path ApplicationPath() {

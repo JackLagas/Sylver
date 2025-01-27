@@ -1,15 +1,12 @@
 #include "Renderer.hpp"
 
 #include "Renderer/Platform/Vulkan/VulkanRenderer.hpp"
-#include "Renderer/Platform/OpenGL/OpenGLRenderer.hpp"
 
 namespace Sylver {
-    Renderer* Renderer::Create(Window* window, Settings::sRenderer::RendererType backend) {
-        if (backend == Settings::sRenderer::RendererType::VULKAN) {
-            return new VulkanRenderer(window);
-        } else if (backend == Settings::sRenderer::RendererType::OPENGL) {
-            return new OpenGLRenderer(window);
+    Renderer* Renderer::Create(Settings::sRenderer rendererSettings) {
+        if (rendererSettings.Backend == Settings::sRenderer::RendererType::VULKAN) {
+            return new VulkanRenderer(rendererSettings.RendererWidth, rendererSettings.RendererHeight);
         }
-        return new OpenGLRenderer(window);
+        return nullptr;
     }
 }    // namespace Sylver

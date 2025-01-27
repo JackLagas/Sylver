@@ -4,15 +4,9 @@
 #include <Defines.hpp>
 
 namespace Sylver {
-    enum class ResourceType {
-        Unknown,
-        Texture,
-        Text,
-    };
     class Resource {
-        private:
+        protected:
             const std::string m_Name{};
-            ResourceType m_Type{ ResourceType::Unknown };
             u8* m_Data{ nullptr };
 
             const std::filesystem::path m_FilePath{};
@@ -23,14 +17,14 @@ namespace Sylver {
 
 
         public:
-            Resource(const std::string& name, const ResourceType type, const std::filesystem::path& path, const b8 load = false) :
-                m_Name(name), m_Type(type), m_FilePath(path), m_Offset(0), m_Size(0) {
+            Resource(const std::string& name, const std::filesystem::path& path, const b8 load = false) :
+                m_Name(name), m_FilePath(path), m_Offset(0), m_Size(0) {
                 if (load) {
                     Load();
                 }
             }
-            Resource(const std::string& name, const ResourceType type, const std::filesystem::path& path, const u64 offset, const u64 size, const b8 load = false) :
-                m_Name(name), m_Type(type), m_FilePath(path), m_Offset(offset), m_Size(size) {
+            Resource(const std::string& name, const std::filesystem::path& path, const u64 offset, const u64 size, const b8 load = false) :
+                m_Name(name), m_FilePath(path), m_Offset(offset), m_Size(size) {
                 if (load) {
                     Load();
                 }

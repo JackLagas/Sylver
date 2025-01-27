@@ -3,6 +3,7 @@
 
 namespace Sylver {
     enum Keys {
+        SYLVER_KEY_UNKNOWN = 0,
         SYLVER_KEY_SPACE = 32,
         SYLVER_KEY_APOSTROPHE = 39,
         SYLVER_KEY_COMMA = 44,
@@ -123,7 +124,6 @@ namespace Sylver {
         SYLVER_KEY_RIGHT_ALT = 346,
         SYLVER_KEY_RIGHT_SUPER = 347,
         SYLVER_KEY_MENU = 348,
-        SYLVER_KEY_LAST = SYLVER_KEY_MENU
     };
     enum MouseButton {
         SYLVER_MOUSE_BUTTON_1 = 0,

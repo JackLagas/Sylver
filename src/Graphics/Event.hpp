@@ -8,6 +8,7 @@ namespace Sylver {
     // TODO: Joystick/Controller Events
     enum class EventType {
         COMMON_EVENT,
+        WINDOW_CLOSE_EVENT,
         WINDOW_RESIZE_EVENT,
         WINDOW_MOVE_EVENT,
         WINDOW_FOCUS_EVENT,
@@ -21,6 +22,10 @@ namespace Sylver {
 
     struct CommonEvent {
             EventType type{ EventType::COMMON_EVENT };
+    };
+    struct WindowCloseEvent {
+            EventType type{ EventType::WINDOW_CLOSE_EVENT };
+            void* window_id;
     };
     struct WindowResizeEvent {
             EventType type{ EventType::WINDOW_RESIZE_EVENT };
@@ -47,7 +52,7 @@ namespace Sylver {
     struct WindowMaximizeEvent {
             EventType type{ EventType::WINDOW_MAXIMIZE_EVENT };
             void* window_id;
-            u32 minimized;
+            u32 maximized;
     };
     struct KeyboardEvent {
             EventType type{ EventType::KEYBOARD_EVENT };
@@ -100,6 +105,10 @@ namespace Sylver {
                 std::erase_if(s_EventQueue, [&](T a) {
                     return m_EventCallback(a);
                 });
+            }
+
+            static void AddEvent(T event) {
+                s_EventQueue.push_back(event);
             }
     };
 

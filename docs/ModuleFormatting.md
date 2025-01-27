@@ -88,25 +88,68 @@ Description
 Type
     Object
 Description
-    A map of texture paths
-    Paths should be relative to the texture directory
-    Formatted as "<name>":"<path>"
+    A map of textures
+    Formatted as "<name>":"<texture>"
+
+##### assets.textures.<texture>.path
+Type
+    String
+Description
+    Path relative to texture directory
+
+##### assets.textures.<texture>.verticalTiles
+Type
+    Number
+Default
+    0
+Description
+    The number of vertical tiles for a tilemap.
+
+##### assets.textures.<texture>.horizontalTiles
+Type
+    Number
+Default
+    0
+Description
+    The number of horizontal tiles for a tilemap.
     
 #### assets.shaders
 Type
     Object
 Description
-    A map of shader paths
-    Paths should be relative to the shader directory
-    Formatted as "<name>":"<path>"
+    A map of shaders
+    Formatted as "<name>":"<shader>"
+
+##### assets.shaders.<shader>.path
+Type
+    String
+Description
+    Path relative to shader directory
     
+##### assets.shaders.<shader>.type
+Type
+    String
+Options 
+    Fragment fragment Frag frag Pixel pixel Pix pix
+    Vertex vertex Vert vert
+    Geometry geometry Geo geo
+    Tessellation tessellation Tess tess
+    Compute compute Comp comp
+Description
+    The type of shader
+
 #### assets.scripts
 Type
     Object
 Description
-    A map of script paths
-    Paths should be relative to the script directory
-    Formatted as "<name>":"<path>"
+    A map of scripts
+    Formatted as "<name>":"\<script>"
 
+##### assets.scripts.\<script>.path
+Type
+    String
+Description
+    Path relative to script directory
+    
 
 

@@ -5,6 +5,15 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/pattern_formatter.h>
 
+
+#if defined(SYLVER_LOG_VULKAN_CREATIONS)
+#define VULKAN_CREATED(item)   Logger::Info("Created {}", item)
+#define VULKAN_ALLOCATED(item) Logger::Info("Allocated {}", item)
+#else
+#define VULKAN_CREATED(item)
+#define VULKAN_ALLOCATED(item)
+#endif
+
 namespace Sylver {
     class Logger {
         private:
@@ -19,10 +28,6 @@ namespace Sylver {
             template<typename T>
             inline static void Log(spdlog::level::level_enum level, const T& msg) {
                 s_Logger->log(level, msg);
-            }
-            template<typename... Args>
-            inline static void Info(spdlog::level::level_enum level, spdlog::format_string_t<Args...> fmt, Args&&... args) {
-                s_Logger->log(level, spdlog::level::info, fmt, std::forward<Args>(args)...);
             }
             template<typename T>
             inline static void Trace(const T& msg) {
