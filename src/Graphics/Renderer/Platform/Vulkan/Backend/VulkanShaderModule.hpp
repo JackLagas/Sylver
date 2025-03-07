@@ -1,5 +1,4 @@
-#ifndef SYLVER_VULKAN_SHADER_HPP
-#define SYLVER_VULKAN_SHADER_HPP
+#pragma once
 
 #include <Defines.hpp>
 #include <vulkan/vulkan.h>
@@ -26,4 +25,3 @@ namespace Sylver {
     };
 }    // namespace Sylver
 
-#endif

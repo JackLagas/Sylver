@@ -2,14 +2,14 @@
 
 
 namespace Sylver {
-    Result ResourceManager::Add(const std::string& name, const std::filesystem::path& path, const b8 load) {
+    Result ResourceManager::Add(const std::string& name, const std::filesystem::path& path, const bool load) {
         if (s_Resources.find(name) != s_Resources.end()) {
             return Result::DUPLICATE;
         }
         s_Resources[name] = new Resource(name, path, load);
         return Result::OK;
     }
-    Result ResourceManager::Add(const std::string& name, const std::filesystem::path& path, const u64 offset, const u64 size, const b8 load) {
+    Result ResourceManager::Add(const std::string& name, const std::filesystem::path& path, const u64 offset, const u64 size, const bool load) {
         if (s_Resources.find(name) == s_Resources.end()) {
             return Result::DUPLICATE;
         }
@@ -17,7 +17,7 @@ namespace Sylver {
         return Result::OK;
     }
 
-    b8 ResourceManager::Remove(const std::string& name) {
+    bool ResourceManager::Remove(const std::string& name) {
         if (s_Resources.find(name) == s_Resources.end()) {
             return false;
         }
@@ -26,13 +26,13 @@ namespace Sylver {
         return true;
     }
 
-    b8 ResourceManager::Load(const std::string& name) {
+    bool ResourceManager::Load(const std::string& name) {
         if (s_Resources.find(name) == s_Resources.end()) {
             return false;
         }
         return s_Resources[name]->Load();
     }
-    b8 ResourceManager::Unload(const std::string& name) {
+    bool ResourceManager::Unload(const std::string& name) {
         if (s_Resources.find(name) == s_Resources.end()) {
             return false;
         }

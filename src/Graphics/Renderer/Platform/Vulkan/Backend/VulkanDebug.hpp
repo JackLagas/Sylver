@@ -1,5 +1,4 @@
-#ifndef SYLVER_VULKAN_DEBUG_MESSENGER_HPP
-#define SYLVER_VULKAN_DEBUG_MESSENGER_HPP
+#pragma once
 
 #include <vulkan/vulkan.h>
 #include <Core/Logger.hpp>
@@ -20,5 +19,3 @@ namespace Sylver {
     void VulkanFree(void* pUserData, void* pMemory);
 
 }    // namespace Sylver
-
-#endif

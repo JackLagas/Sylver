@@ -1,5 +1,4 @@
-#ifndef SYLVER_BINARY_HPP
-#define SYLVER_BINARY_HPP
+#pragma once
 
 #include <Defines.hpp>
 #include <sstream>
@@ -64,6 +63,3 @@ namespace Sylver {
 
 
 }    // namespace Sylver
-
-
-#endif

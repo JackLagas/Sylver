@@ -1,6 +1,4 @@
-#ifndef SYLVER_BINARY_READER_HPP
-#define SYLVER_BINARY_READER_HPP
-
+#pragma once
 #include "Binary.hpp"
 
 #include <fstream>
@@ -30,7 +28,7 @@ namespace Sylver {
                 u8 header[4]{};
                 fileReader.seekg(0);
                 fileReader.read((char*)&header, 4);
-                if ( !(header[0] == 'S' && header[1] == 'L' && header[2] == 'V' && header[3] == 'B')) {
+                if (!(header[0] == 'S' && header[1] == 'L' && header[2] == 'V' && header[3] == 'B')) {
                     return Result::FILE_CORRUPTED;
                 }
                 fileReader.seekg(4);
@@ -95,10 +93,10 @@ namespace Sylver {
                         name.resize(nameLength);
                         fileReader.read(name.data(), nameLength);
                         fileReader.read((char*)&size, sizeof(size));
-                        if(m_Binary.Scripts.find(name) != m_Binary.Scripts.end()){
+                        if (m_Binary.Scripts.find(name) != m_Binary.Scripts.end()) {
                             return Result::FILE_CORRUPTED;
                         }
-                        m_Binary.Scripts[name] = {.Offset = scriptOffsets[i], .Size = size};
+                        m_Binary.Scripts[name] = { .Offset = scriptOffsets[i], .Size = size };
                     }
                 }
                 // Shaders
@@ -118,10 +116,10 @@ namespace Sylver {
                         name.resize(nameLength);
                         fileReader.read(name.data(), nameLength);
                         fileReader.read((char*)&size, sizeof(size));
-                        if(m_Binary.Shaders.find(name) != m_Binary.Shaders.end()){
+                        if (m_Binary.Shaders.find(name) != m_Binary.Shaders.end()) {
                             return Result::FILE_CORRUPTED;
                         }
-                        m_Binary.Shaders[name] = {.Offset = shaderOffsets[i], .Size = size};
+                        m_Binary.Shaders[name] = { .Offset = shaderOffsets[i], .Size = size };
                     }
                 }
                 // Textures
@@ -145,7 +143,7 @@ namespace Sylver {
                         fileReader.read((char*)&hTiles, sizeof(hTiles));
                         fileReader.read((char*)&vTiles, sizeof(vTiles));
                         fileReader.read((char*)&size, sizeof(size));
-                        if(m_Binary.Textures.find(name) != m_Binary.Textures.end()){
+                        if (m_Binary.Textures.find(name) != m_Binary.Textures.end()) {
                             return Result::FILE_CORRUPTED;
                         }
                         m_Binary.Textures[name] = {
@@ -162,6 +160,3 @@ namespace Sylver {
             }
     };
 }    // namespace Sylver
-
-
-#endif

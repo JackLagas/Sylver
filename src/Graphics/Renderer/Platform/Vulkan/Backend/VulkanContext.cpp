@@ -7,7 +7,7 @@
 
 namespace Sylver {
 
-    b8 VulkanContext::Init(Window* window) {
+    bool VulkanContext::Init(Window* window) {
 #if !defined(NDEBUG) && defined(SYLVER_USE_CUSTOM_VULKAN_ALLOCATOR)
         Allocator = new VkAllocationCallbacks();
         Allocator->pfnAllocation = VulkanAllocation;
@@ -98,7 +98,7 @@ namespace Sylver {
         }
         vkDestroyInstance(Instance, Allocator);
     }
-    b8 VulkanContext::SetupDebugMessenger() {
+    bool VulkanContext::SetupDebugMessenger() {
 
         VkDebugUtilsMessengerCreateInfoEXT createInfo{};
         PopulateDebugMessengerCreateInfo(createInfo);
@@ -110,7 +110,7 @@ namespace Sylver {
         return true;
     }
 
-    b8 VulkanContext::CreateInstance() {
+    bool VulkanContext::CreateInstance() {
         if (enableValidationLayers && !CheckValidationLayerSupport()) {
             Logger::Critical("Validation layer requested but not found");
             return false;
@@ -159,7 +159,7 @@ namespace Sylver {
         VULKAN_CREATED("VkInstance");
         return true;
     }
-    b8 VulkanContext::CreateSyncObjects() {
+    bool VulkanContext::CreateSyncObjects() {
         ImageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
         RenderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
         InFlightFences.resize(MAX_FRAMES_IN_FLIGHT);

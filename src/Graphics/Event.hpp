@@ -1,5 +1,4 @@
-#ifndef SYLVER_EVENT_HPP
-#define SYLVER_EVENT_HPP
+#pragma once
 
 #include <Defines.hpp>
 #include "Event/Keys.hpp"
@@ -90,14 +89,14 @@ namespace Sylver {
         private:
             inline static std::vector<T> s_EventQueue = {};
 
-            std::function<b8(T)> m_EventCallback = []() { return false; };
+            std::function<bool(T)> m_EventCallback = []() { return false; };
 
         public:
             EventListener();
-            EventListener(std::function<b8(T)> callback) :
+            EventListener(std::function<bool(T)> callback) :
                 m_EventCallback(callback) {}
 
-            void SetCallback(std::function<b8(T)> callback) {
+            void SetCallback(std::function<bool(T)> callback) {
                 m_EventCallback = callback;
             }
 
@@ -113,4 +112,3 @@ namespace Sylver {
     };
 
 }    // namespace Sylver
-#endif

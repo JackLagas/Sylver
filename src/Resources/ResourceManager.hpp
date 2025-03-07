@@ -1,6 +1,4 @@
-#ifndef SYLVER_RESOURCES_MANAGER_HPP
-#define SYLVER_RESOURCES_MANAGER_HPP
-
+#pragma once
 
 #include <Defines.hpp>
 #include "Resource.hpp"
@@ -15,17 +13,15 @@ namespace Sylver {
             ResourceManager() = delete;
             ResourceManager(const ResourceManager&) = delete;
 
-            static Result Add(const std::string& name, const std::filesystem::path& path, const b8 load = false);
-            static Result Add(const std::string& name, const std::filesystem::path& path, const u64 offset, const u64 size, const b8 load = false);
-            static b8 Remove(const std::string& name);
+            static Result Add(const std::string& name, const std::filesystem::path& path, const bool load = false);
+            static Result Add(const std::string& name, const std::filesystem::path& path, const u64 offset, const u64 size, const bool load = false);
+            static bool Remove(const std::string& name);
 
-            static b8 Load(const std::string& name);
-            static b8 Unload(const std::string& name);
+            static bool Load(const std::string& name);
+            static bool Unload(const std::string& name);
 
             static Resource* Get(const std::string& name);
 
             static void Cleanup();
     };
 }    // namespace Sylver
-
-#endif

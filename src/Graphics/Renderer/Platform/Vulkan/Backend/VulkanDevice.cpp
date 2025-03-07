@@ -3,7 +3,7 @@
 
 namespace Sylver {
 
-    b8 VulkanContext::PickPhysicalDevice() {
+    bool VulkanContext::PickPhysicalDevice() {
         u32 deviceCount{};
         vkEnumeratePhysicalDevices(Instance, &deviceCount, nullptr);
 
@@ -28,7 +28,7 @@ namespace Sylver {
         }
         return true;
     }
-    b8 VulkanContext::CreateLogicalDevice() {
+    bool VulkanContext::CreateLogicalDevice() {
         QueueFamilyIndices indices = FindQueueFamilies(PhysicalDevice);
 
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos{};

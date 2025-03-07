@@ -1,5 +1,4 @@
-#ifndef SYLVER_VULKAN_VERTEX_HPP
-#define SYLVER_VULKAN_VERTEX_HPP
+#pragma once
 
 #include <vulkan/vulkan.h>
 #include <glm/glm.hpp>
@@ -36,4 +35,3 @@ namespace Sylver {
     };
 }    // namespace Sylver
 
-#endif

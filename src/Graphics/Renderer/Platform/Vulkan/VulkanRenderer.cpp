@@ -8,8 +8,8 @@
 
 
 namespace Sylver {
-    VulkanRenderer::VulkanRenderer(u32 width, u32 height) {
-        m_Window = Window::Create(AppInfo::Name(), width, height);
+    VulkanRenderer::VulkanRenderer(u32 width, u32 height, const Config& cfg) {
+        m_Window = Window::Create(AppInfo::Name(), width, height, cfg);
         if (!m_Context.Init(m_Window)) {
             Logger::Critical("Vulkan initialization failed...");
         }
@@ -25,7 +25,7 @@ namespace Sylver {
         reinterpret_cast<VulkanContext*>(userPtr)->FramebufferResized = true;
         Logger::Info("Framebuffer resized to ({}, {})", x, y);
     }
-    b8 VulkanRenderer::BeginFrame() {
+    bool VulkanRenderer::BeginFrame() {
         m_Window->Update();
 
         vkWaitForFences(m_Context.Device, 1, &m_Context.InFlightFences[m_Context.CurrentFrame], VK_TRUE, UINT64_MAX);
@@ -82,20 +82,20 @@ namespace Sylver {
 
         return true;
     }
-    b8 VulkanRenderer::DrawSprite(glm::vec2 pos, glm::vec2 size, u8* texture) {
+    bool VulkanRenderer::DrawSprite(glm::vec2 pos, glm::vec2 size, u8* texture) {
         return true;
     }
-    b8 VulkanRenderer::DrawSprite(f32 x, f32 y, f32 w, f32 h, u8* texture) {
+    bool VulkanRenderer::DrawSprite(f32 x, f32 y, f32 w, f32 h, u8* texture) {
         return true;
     }
-    b8 VulkanRenderer::DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color) {
+    bool VulkanRenderer::DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color) {
         return true;
     }
-    b8 VulkanRenderer::DrawRect(f32 x, f32 y, f32 w, f32 h, glm::vec4 color) {
+    bool VulkanRenderer::DrawRect(f32 x, f32 y, f32 w, f32 h, glm::vec4 color) {
         return true;
     }
 
-    b8 VulkanRenderer::EndFrame() {
+    bool VulkanRenderer::EndFrame() {
         VkDeviceSize offset = 0;
         vkCmdBindVertexBuffers(m_Context.CommandBuffers[m_Context.CurrentFrame], 0, 1, &m_Context.VertexBuffer, &offset);
         vkCmdBindIndexBuffer(m_Context.CommandBuffers[m_Context.CurrentFrame], m_Context.IndexBuffer, 0, VK_INDEX_TYPE_UINT16);

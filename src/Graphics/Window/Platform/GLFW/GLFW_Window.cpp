@@ -78,32 +78,34 @@ namespace Sylver {
             FramebufferCallback(
                 static_cast<u32>(x),
                 static_cast<u32>(y),
-                glfwGetWindowUserPointer(window)
-                );
+                glfwGetWindowUserPointer(window));
         });
     }
 
 
-    GLFW_Window::GLFW_Window(std::string title, u32 width, u32 height, Settings::sRenderer::RendererType backend) {
+    GLFW_Window::GLFW_Window(const std::string& title, u32 width, u32 height, const Config& cfg) {
         glfwInit();
 
-        if (backend == Settings::sRenderer::RendererType::VULKAN) {
+        if (cfg.RendererBackend == Config::eRenderer::VULKAN) {
             glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        } else if (backend == Settings::sRenderer::RendererType::OPENGL) {
+        } else if (cfg.RendererBackend == Config::eRenderer::OPENGL) {
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#if defined(SYLVER_PLATFORM_MAC)
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
         }
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
         glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
-        m_WindowHandle = glfwCreateWindow(static_cast<s32>(width), static_cast<s32>(height), title.c_str(), nullptr, nullptr);
+        m_WindowHandle = glfwCreateWindow(static_cast<i32>(width), static_cast<i32>(height), title.c_str(), nullptr, nullptr);
 
         if (m_WindowHandle == nullptr) {
             Logger::Critical("Failed to create window");
         }
-        if (backend == Settings::sRenderer::RendererType::OPENGL) {
+        if (cfg.RendererBackend == Config::eRenderer::OPENGL) {
             glfwMakeContextCurrent(m_WindowHandle);
         }
         glfwSetKeyCallback(m_WindowHandle, KeyCallback);
@@ -134,7 +136,7 @@ namespace Sylver {
     void* GLFW_Window::GetUserPtr() {
         return glfwGetWindowUserPointer(m_WindowHandle);
     }
-    void GLFW_Window::WaitForEvent(){
+    void GLFW_Window::WaitForEvent() {
         glfwWaitEvents();
     }
     std::vector<const char*> GLFW_Window::GetRequiredExtensions() const {
@@ -151,11 +153,11 @@ namespace Sylver {
             surface);
     }
 
-    b8 GLFW_Window::LoadGlad() {
+    bool GLFW_Window::LoadGlad() {
         return gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     }
     glm::uvec2 GLFW_Window::GetFramebufferSize() const {
-        s32 width, height;
+        i32 width, height;
         glfwGetFramebufferSize(m_WindowHandle, &width, &height);
         return glm::uvec2(
             static_cast<u32>(width),
@@ -169,7 +171,7 @@ namespace Sylver {
         return GetFramebufferSize().x;
     }
 
-    b8 GLFW_Window::ShouldClose() const {
+    bool GLFW_Window::ShouldClose() const {
         return glfwWindowShouldClose(m_WindowHandle);
     }
 

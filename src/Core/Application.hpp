@@ -1,6 +1,4 @@
-#ifndef SYLVER_APPLICATION_HPP
-#define SYLVER_APPLICATION_HPP
-
+#pragma once
 #include <Graphics/Renderer.hpp>
 
 namespace Sylver {
@@ -13,5 +11,3 @@ namespace Sylver {
             ~Application();
     };
 }    // namespace Sylver
-
-#endif

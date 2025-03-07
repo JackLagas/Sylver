@@ -1,5 +1,4 @@
-#ifndef SYLVER_VERSION_HPP
-#define SYLVER_VERSION_HPP
+#pragma once
 
 #include <Defines.hpp>
 #include <ostream>
@@ -58,7 +57,7 @@ namespace Sylver {
             // Helper Functions
             // ********************
 
-            inline static b8 Validate(std::string semVer) {
+            inline static bool Validate(std::string semVer) {
                 return std::regex_match(semVer, RegularExpression);
             }
 
@@ -185,5 +184,3 @@ namespace Sylver {
         return stream << version.ToString();
     }
 }    // namespace Sylver
-
-#endif

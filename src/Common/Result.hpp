@@ -1,5 +1,4 @@
-#ifndef SYLVER_RESULT_HPP
-#define SYLVER_RESULT_HPP
+#pragma once
 
 namespace Sylver {
     enum Result {
@@ -13,5 +12,3 @@ namespace Sylver {
     };
 
 }
-
-#endif

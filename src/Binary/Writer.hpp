@@ -1,6 +1,4 @@
-#ifndef SYLVER_BINARY_WRITER_HPP
-#define SYLVER_BINARY_WRITER_HPP
-
+#pragma once
 #include <Defines.hpp>
 
 #include <Common/Result.hpp>
@@ -100,7 +98,7 @@ namespace Sylver {
 
 
         private:
-            Result AppendFile(std::ofstream& outputStream, const std::filesystem::path& inputPath){
+            Result AppendFile(std::ofstream& outputStream, const std::filesystem::path& inputPath) {
                 std::ifstream inputStream(inputPath, std::ios::in | std::ios::binary);
 
                 std::ostringstream sstr;
@@ -148,7 +146,7 @@ namespace Sylver {
                 fileStream.write((char*)&shaderLocation, sizeof(shaderLocation));
                 fileStream.write((char*)&textureLocation, sizeof(textureLocation));
                 u8 zero = 0;
-                for(u32 i = 0; i < 24; i++){
+                for (u32 i = 0; i < 24; i++) {
                     fileStream.write((char*)&zero, 1);
                 }
 
@@ -217,6 +215,3 @@ namespace Sylver {
             }
     };
 }    // namespace Sylver
-
-
-#endif

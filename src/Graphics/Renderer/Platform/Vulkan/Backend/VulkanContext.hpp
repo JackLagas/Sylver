@@ -1,5 +1,4 @@
-#ifndef VULKAN_CONTEXT_HPP
-#define VULKAN_CONTEXT_HPP
+#pragma once
 
 #include <vulkan/vulkan.h>
 
@@ -11,7 +10,7 @@ namespace Sylver {
             std::optional<u32> graphicsFamily;
             std::optional<u32> presentFamily;
 
-            b8 isComplete() {
+            bool isComplete() {
                 return graphicsFamily.has_value() && presentFamily.has_value();
             }
     };
@@ -39,7 +38,7 @@ namespace Sylver {
             std::vector<VkImage> SwapchainImages{};
             std::vector<VkImageView> SwapchainImageViews{};
             std::vector<VkFramebuffer> SwapchainFramebuffers{};
-            b8 FramebufferResized{ false };
+            bool FramebufferResized{ false };
             VkRenderPass RenderPass{};
             VkPipelineLayout PipelineLayout{};
             VkPipeline GraphicsPipeline{};
@@ -56,41 +55,40 @@ namespace Sylver {
             VkDeviceMemory IndexBufferMemory{};
 
 
-            b8 Init(Window* window);
+            bool Init(Window* window);
             void Clean();
 
             void RecreateSwapchain();
 
 
         private:
-            b8 CreateInstance();
-            b8 CheckValidationLayerSupport();
-            b8 SetupDebugMessenger();
+            bool CreateInstance();
+            bool CheckValidationLayerSupport();
+            bool SetupDebugMessenger();
             QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
             SwapchainSupportDetails QuerySwapchainSupport(VkPhysicalDevice device);
             VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
             VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
             VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-            b8 CheckDeviceExtensionSupport(VkPhysicalDevice device);
-            b8 IsDeviceSuitable(VkPhysicalDevice device);
-            b8 PickPhysicalDevice();
-            b8 CreateLogicalDevice();
-            b8 CreateSwapchain();
-            b8 CreateImageViews();
-            b8 CreateFramebuffers();
+            bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
+            bool IsDeviceSuitable(VkPhysicalDevice device);
+            bool PickPhysicalDevice();
+            bool CreateLogicalDevice();
+            bool CreateSwapchain();
+            bool CreateImageViews();
+            bool CreateFramebuffers();
             void CleanupSwapchain();
-            b8 CreateRenderPass();
-            b8 CreateGraphicsPipeline();
-            b8 CreateCommandPool();
-            b8 CreateCommandBuffer();
-            b8 CreateSyncObjects();
+            bool CreateRenderPass();
+            bool CreateGraphicsPipeline();
+            bool CreateCommandPool();
+            bool CreateCommandBuffer();
+            bool CreateSyncObjects();
             u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties);
             void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
             void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-            b8 CreateVertexBuffer();
-            b8 CreateIndexBuffer();
+            bool CreateVertexBuffer();
+            bool CreateIndexBuffer();
     };
 }    // namespace Sylver
 
 
-#endif

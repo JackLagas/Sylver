@@ -1,6 +1,4 @@
-#ifndef SYLVER_GLFW_KEYS_HPP
-#define SYLVER_GLFW_KEYS_HPP
-
+#pragma once
 #include <Defines.hpp>
 #include <Graphics/Event/Keys.hpp>
 
@@ -279,12 +277,11 @@ namespace Sylver {
         switch (action) {
             case GLFW_PRESS:
                 return ButtonAction::SYLVER_KEY_PRESS;
-                case GLFW_RELEASE:
+            case GLFW_RELEASE:
                 return ButtonAction::SYLVER_KEY_RELEASE;
-                case GLFW_REPEAT:
+            case GLFW_REPEAT:
                 return ButtonAction::SYLVER_KEY_RELEASE;
         }
         return ButtonAction::SYLVER_KEY_PRESS;
     }
 }    // namespace Sylver
-#endif

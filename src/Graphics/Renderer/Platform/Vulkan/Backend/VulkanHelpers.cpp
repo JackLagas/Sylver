@@ -2,14 +2,14 @@
 #include "VulkanShared.hpp"
 
 namespace Sylver{
-    b8 VulkanContext::CheckValidationLayerSupport() {
+    bool VulkanContext::CheckValidationLayerSupport() {
         u32 layerCount{};
         vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
         std::vector<VkLayerProperties> availableLayers(layerCount);
         vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
         for (const char* layerName : validationLayers) {
-            b8 layerFound{false};
+            bool layerFound{false};
             for (const auto& layerProperties : availableLayers) {
                 if (strcmp(layerName, layerProperties.layerName) == 0) {
                     layerFound = true;
@@ -101,7 +101,7 @@ namespace Sylver{
             return actualExtent;
         }
     }
-    b8 VulkanContext::CheckDeviceExtensionSupport(VkPhysicalDevice device){
+    bool VulkanContext::CheckDeviceExtensionSupport(VkPhysicalDevice device){
         u32 extensionCount{};
         vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
         std::vector<VkExtensionProperties> availableExtensions(extensionCount);
@@ -114,11 +114,11 @@ namespace Sylver{
         }
         return requiredExtensions.empty();
     }
-    b8 VulkanContext::IsDeviceSuitable(VkPhysicalDevice device) {
+    bool VulkanContext::IsDeviceSuitable(VkPhysicalDevice device) {
         QueueFamilyIndices indices = FindQueueFamilies(device);
 
-        b8 extensionsSupported = CheckDeviceExtensionSupport(device);
-        b8 swapchainAdequate{false};
+        bool extensionsSupported = CheckDeviceExtensionSupport(device);
+        bool swapchainAdequate{false};
         if(extensionsSupported){
             SwapchainSupportDetails swapchainSupport = QuerySwapchainSupport(device);
             swapchainAdequate = !swapchainSupport.formats.empty() && !swapchainSupport.presentModes.empty();

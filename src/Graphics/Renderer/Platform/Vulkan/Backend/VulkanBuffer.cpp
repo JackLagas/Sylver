@@ -75,7 +75,7 @@ namespace Sylver {
         throw std::runtime_error("Failed to find suitable memory type");
     }
 
-    b8 VulkanContext::CreateVertexBuffer() {
+    bool VulkanContext::CreateVertexBuffer() {
         try {
             VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
@@ -112,7 +112,7 @@ namespace Sylver {
 
         return true;
     }
-    b8 VulkanContext::CreateIndexBuffer() {
+    bool VulkanContext::CreateIndexBuffer() {
         try {
             VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 

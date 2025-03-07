@@ -18,7 +18,7 @@ namespace Sylver {
         CreateImageViews();
         CreateFramebuffers();
     }
-    b8 VulkanContext::CreateSwapchain() {
+    bool VulkanContext::CreateSwapchain() {
         SwapchainSupportDetails swapchainSupport = QuerySwapchainSupport(PhysicalDevice);
 
         VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapchainSupport.formats);
@@ -73,7 +73,7 @@ namespace Sylver {
 
         return true;
     }
-    b8 VulkanContext::CreateImageViews() {
+    bool VulkanContext::CreateImageViews() {
         SwapchainImageViews.resize(SwapchainImages.size());
         for (usize i = 0; i < SwapchainImages.size(); i++) {
             VkImageViewCreateInfo createInfo{};
@@ -100,7 +100,7 @@ namespace Sylver {
         return true;
     }
 
-    b8 VulkanContext::CreateFramebuffers() {
+    bool VulkanContext::CreateFramebuffers() {
         SwapchainFramebuffers.resize(SwapchainImageViews.size());
 
         for (usize i = 0; i < SwapchainImageViews.size(); i++) {

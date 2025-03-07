@@ -1,6 +1,4 @@
-#ifndef SYLVER_VULKAN_SHARED_HPP
-#define SYLVER_VULKAN_SHARED_HPP
-
+#pragma once
 #include <Defines.hpp>
 #include <Core/Logger.hpp>
 #include <vulkan/vulkan.h>
@@ -13,12 +11,17 @@ namespace Sylver {
     // TODO: Temporary
     const std::vector<Vertex> vertices = {
         { { -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
-        { {  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
-        { {  0.5f,  0.5f }, { 0.0f, 0.0f, 1.0f, 1.0f } },
-        { { -0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f, 1.0f } }
+        { { 0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
+        { { 0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f, 1.0f } },
+        { { -0.5f, 0.5f }, { 1.0f, 1.0f, 1.0f, 1.0f } }
     };
     const std::vector<u16> indices = {
-        0, 1, 2, 2, 3, 0
+        0,
+        1,
+        2,
+        2,
+        3,
+        0
     };
     const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
@@ -28,11 +31,9 @@ namespace Sylver {
     };
     const u32 MAX_FRAMES_IN_FLIGHT = 2;
 #if defined(NDEBUG)
-    const b8 enableValidationLayers = false;
+    constexpr bool enableValidationLayers = false;
 #else
-    const b8 enableValidationLayers = true;
+    constexpr bool enableValidationLayers = true;
 #endif
 
 }    // namespace Sylver
-
-#endif

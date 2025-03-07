@@ -1,5 +1,4 @@
-#ifndef SYLVER_KEYS_HPP
-#define SYLVER_KEYS_HPP
+#pragma once
 
 namespace Sylver {
     enum Keys {
@@ -144,5 +143,3 @@ namespace Sylver {
         SYLVER_KEY_REPEAT,
     };
 }    // namespace Sylver
-
-#endif

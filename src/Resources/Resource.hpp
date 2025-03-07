@@ -1,5 +1,4 @@
-#ifndef SYLVER_RESOURCE_HPP
-#define SYLVER_RESOURCE_HPP
+#pragma once
 
 #include <Defines.hpp>
 
@@ -13,17 +12,17 @@ namespace Sylver {
             const u64 m_Offset{ 0 };
             const u64 m_Size{ 0 };
 
-            b8 m_Loaded{ false };
+            bool m_Loaded{ false };
 
 
         public:
-            Resource(const std::string& name, const std::filesystem::path& path, const b8 load = false) :
+            Resource(const std::string& name, const std::filesystem::path& path, const bool load = false) :
                 m_Name(name), m_FilePath(path), m_Offset(0), m_Size(0) {
                 if (load) {
                     Load();
                 }
             }
-            Resource(const std::string& name, const std::filesystem::path& path, const u64 offset, const u64 size, const b8 load = false) :
+            Resource(const std::string& name, const std::filesystem::path& path, const u64 offset, const u64 size, const bool load = false) :
                 m_Name(name), m_FilePath(path), m_Offset(offset), m_Size(size) {
                 if (load) {
                     Load();
@@ -32,8 +31,8 @@ namespace Sylver {
             ~Resource() {
                 delete m_Data;
             }
-            b8 Load();
-            b8 Unload();
+            bool Load();
+            bool Unload();
             const std::string& Name() {
                 return m_Name;
             }
@@ -45,6 +44,3 @@ namespace Sylver {
             }
     };
 }    // namespace Sylver
-
-
-#endif

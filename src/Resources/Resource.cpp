@@ -8,7 +8,7 @@
 
 namespace Sylver {
 
-    b8 Resource::Load() {
+    bool Resource::Load() {
         if (m_Loaded) {
             return true;
         }
@@ -30,7 +30,7 @@ namespace Sylver {
         }
         return true;
     }
-    b8 Resource::Unload() {
+    bool Resource::Unload() {
         if (!m_Loaded) {
             return true;
         } else {

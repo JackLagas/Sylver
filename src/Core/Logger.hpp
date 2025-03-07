@@ -1,5 +1,4 @@
-#ifndef SYLVER_LOGGER_HPP
-#define SYLVER_LOGGER_HPP
+#pragma once
 
 #include <Defines.hpp>
 #include <spdlog/spdlog.h>
@@ -81,4 +80,3 @@ namespace Sylver {
     };
 }    // namespace Sylver
 
-#endif

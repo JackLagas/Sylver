@@ -1,5 +1,4 @@
-#ifndef SYLVER_FILES_HPP
-#define SYLVER_FILES_HPP
+#pragma once
 
 #include <Defines.hpp>
 
@@ -111,6 +110,3 @@ namespace Sylver {
     };
 
 }    // namespace Sylver
-
-
-#endif

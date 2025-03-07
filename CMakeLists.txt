@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.22)
 
 project(Sylver LANGUAGES C CXX)
 
+set(PROJECT_VERSION 0.1.0)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 cmake_host_system_information(RESULT SYLVER_SYSTEM_ARCH QUERY OS_PLATFORM)
@@ -12,9 +16,11 @@ if(WIN32)
 elseif(UNIX AND NOT APPLE)
     set(SYLVER_OS Linux)
     list(APPEND SYLVER_DEFINES SYLVER_PLATFORM_LINUX)
+    list(APPEND SYLVER_DEFINES SYLVER_PLATFORM_UNIX)
 elseif(UNIX AND APPLE)
     set(SYLVER_OS Mac)
     list(APPEND SYLVER_DEFINES SYLVER_PLATFORM_MAC)
+    list(APPEND SYLVER_DEFINES SYLVER_PLATFORM_UNIX)
 else()
     message(FATAL "Unknown OS")
 endif()
@@ -37,10 +43,8 @@ find_package(OpenGL REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SYLVER_OUTPUT_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SYLVER_OUTPUT_DIR}/lib)
-set(PROJECT_VERSION 0.1.0)
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 
 file(GLOB_RECURSE SYLVER_HEADERS ${CMAKE_SOURCE_DIR}/src/**.hpp)
@@ -61,39 +65,8 @@ endif()
 
 
 # Shader Compilation
+include(Shaders)
 
-set(SHADER_PATH ${CMAKE_SOURCE_DIR}/src/Graphics/Renderer/Shaders)
-
-set(SHADER_FILES
-    ${SHADER_PATH}/Basic.frag
-    ${SHADER_PATH}/Basic.vert
-)
-
-set(SHADER_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/include/Shaders )
-
-find_program(GLSLANGVALIDATOR "glslangValidator")
-if("${GLSLANGVALIDATOR}" STREQUAL "GLSLANGVALIDATOR-NOTFOUND")
-    message(FATAL_ERROR "Could not find required program 'glslangValidator'")
-endif()
-
-
-foreach(FILE IN ITEMS ${SHADER_FILES})
-    cmake_path(GET FILE FILENAME FILE_NAME)
-    string(REPLACE "." "_" SHADER_NAME ${FILE_NAME})
-    string(TOUPPER ${SHADER_NAME}_SPV SPIRV_VARIABLE_NAME)
-    set(SPIRV_HEADER_FILE ${SHADER_INCLUDE_DIR}/${SHADER_NAME}_spv.h)
-    add_custom_command(
-        OUTPUT ${SPIRV_HEADER_FILE}
-        COMMAND ${GLSLANGVALIDATOR} -V --variable-name ${SPIRV_VARIABLE_NAME} -o ${SPIRV_HEADER_FILE} ${FILE}
-        MAIN_DEPENDENCY ${SOURCE_FILE}
-    )
-    set(SHADER_HEADERS ${SHADER_HEADERS} ${SPIRV_HEADER_FILE})
-
-endforeach()
-add_custom_target(SylverShaders
-    DEPENDS ${SHADER_HEADERS}
-    SOURCES ${SHADER_FILES}
-)
 add_dependencies(Sylver SylverShaders)
 
 target_include_directories(Sylver 
@@ -101,6 +74,9 @@ target_include_directories(Sylver
     PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
+target_precompile_headers(Sylver
+    PRIVATE ${CMAKE_SOURCE_DIR}/src/Defines.hpp
+)
 
 target_link_libraries(Sylver PRIVATE 
     fmt::fmt

@@ -1,12 +1,10 @@
-#ifndef SYLVER_GLFW_WINDOW_HPP
-#define SYLVER_GLFW_WINDOW_HPP
+#pragma once
 
 #include <Graphics/Window.hpp>
 
 #include <vulkan/vulkan.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <Settings/Settings.hpp>
 
 namespace Sylver {
     class GLFW_Window : public Window {
@@ -14,7 +12,7 @@ namespace Sylver {
             GLFWwindow* m_WindowHandle;
 
         public:
-            GLFW_Window(std::string title, u32 width, u32 height, Settings::sRenderer::RendererType backend = Settings::sRenderer::RendererType::VULKAN);
+            GLFW_Window(const std::string& title, u32 width, u32 height, const Config& cfg);
             ~GLFW_Window();
 
             glm::uvec2 GetFramebufferSize() const override;
@@ -22,7 +20,7 @@ namespace Sylver {
             u32 GetWidth() const override;
 
             void Update() override;
-            b8 ShouldClose() const override;
+            bool ShouldClose() const override;
 
             void SetFramebufferCallback(std::function<void(u32, u32, void*)> callback) override;
             void SetUserPtr(void* userPtr) override;
@@ -32,11 +30,6 @@ namespace Sylver {
 
             std::vector<const char*> GetRequiredExtensions() const override;
             VkResult CreateWindowSurface(VkInstance instance, const VkAllocationCallbacks* allocationCallback, VkSurfaceKHR* surface) override;
-            b8 LoadGlad() override;
-
-
-
+            bool LoadGlad() override;
     };
 }    // namespace Sylver
-
-#endif

@@ -6,7 +6,7 @@
 #include "VulkanShared.hpp"
 
 namespace Sylver {
-    b8 VulkanContext::CreateCommandPool() {
+    bool VulkanContext::CreateCommandPool() {
         QueueFamilyIndices queueFamilyIndices = FindQueueFamilies(PhysicalDevice);
 
         VkCommandPoolCreateInfo poolInfo{};
@@ -22,7 +22,7 @@ namespace Sylver {
 
         return true;
     }
-    b8 VulkanContext::CreateCommandBuffer() {
+    bool VulkanContext::CreateCommandBuffer() {
         CommandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
         VkCommandBufferAllocateInfo allocateInfo{};
         allocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;

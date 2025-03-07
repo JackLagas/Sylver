@@ -19,8 +19,14 @@ namespace Sylver {
         AppInfo::Init("SylverApp", { 1, 0, 0 });
 
         Files::InitUserPath(AppInfo::Name());
+        Config appConfig = Config::GetOpts(cmdArgs);
+        appConfig.RendererWidth = 1920;
+        appConfig.RendererHeight = 1080;
+        if (appConfig.RendererBackend == Config::eRenderer::NONE) {
+            appConfig.RendererBackend = Config::eRenderer::OPENGL;
+        }
 
-        m_Renderer = Renderer::Create({ Settings::sRenderer::RendererType::VULKAN, 1920, 1080 });
+        m_Renderer = Renderer::Create(appConfig);
 
 
         while (!m_Renderer->ShouldClose()) {

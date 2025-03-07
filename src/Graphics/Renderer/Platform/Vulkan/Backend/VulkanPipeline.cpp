@@ -8,7 +8,7 @@
 
 namespace Sylver {
 
-    b8 VulkanContext::CreateRenderPass() {
+    bool VulkanContext::CreateRenderPass() {
         VkAttachmentDescription colorAttachment{};
         colorAttachment.format = SwapchainImageFormat;
         colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -53,7 +53,7 @@ namespace Sylver {
 
         return true;
     }
-    b8 VulkanContext::CreateGraphicsPipeline() {
+    bool VulkanContext::CreateGraphicsPipeline() {
 
         VulkanShaderModule* shaderModule = VulkanShaderModule::Create(Device, Allocator, VulkanShaderModule::eShaderModule::BASIC);
         if (!shaderModule) {

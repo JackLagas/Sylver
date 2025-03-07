@@ -1,5 +1,4 @@
-#ifndef SYLVER_ENGINE_INFO_HPP
-#define SYLVER_ENGINE_INFO_HPP
+#pragma once
 
 #include <Defines.hpp>
 #include <Common/Version.hpp>
@@ -20,5 +19,3 @@ namespace Sylver {
             }
     };
 }    // namespace Sylver
-
-#endif
