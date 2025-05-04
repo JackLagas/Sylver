@@ -3,6 +3,7 @@
 #include <Defines.hpp>
 #include <ostream>
 #include <regex>
+#include <fmt/core.h>
 
 
 namespace Sylver {

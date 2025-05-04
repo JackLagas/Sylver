@@ -3,8 +3,8 @@
 #include <Core/Logger.hpp>
 #include <Core/AppInfo.hpp>
 #include <Core/Files.hpp>
+#include <Graphics/Renderer/Camera.hpp>
 #include "Backend/VulkanShared.hpp"
-#include "VulkanVertex.hpp"
 
 
 namespace Sylver {
@@ -15,6 +15,12 @@ namespace Sylver {
         }
         m_Window->SetUserPtr(&m_Context);
         m_Window->SetFramebufferCallback(SetFramebufferSize);
+        m_SolidShader = new VulkanShader(eShader::SOLID, m_Context);
+        Camera camera({0, 0}, {1920, 1080}, {-1000.0f, 10000.0f});
+        m_MVP.Model = glm::mat4(1.0f);
+        m_MVP.Proj = camera.GetProjection();
+        m_MVP.View = camera.GetView();
+        m_MVP.Proj[1][1] *= -1;
     }
 
     VulkanRenderer::~VulkanRenderer() {
@@ -38,8 +44,13 @@ namespace Sylver {
             Logger::Error("Failed to acquire swapchain image");
             return false;
         }
+        m_SolidShader->SetMVP(m_MVP, m_Context.CurrentFrame);
         vkResetFences(m_Context.Device, 1, &m_Context.InFlightFences[m_Context.CurrentFrame]);
         vkResetCommandBuffer(m_Context.CommandBuffers[m_Context.CurrentFrame], 0);
+        for(auto buffer: m_Context.Buffers[m_Context.CurrentFrame]){
+            m_Context.DestroyBuffer(buffer);
+        }
+        m_Context.Buffers[m_Context.CurrentFrame].clear();
 
         VkCommandBufferBeginInfo commandBufferBeginInfo{};
         commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -53,7 +64,7 @@ namespace Sylver {
 
         VkRenderPassBeginInfo renderPassBeginInfo{};
         renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-        renderPassBeginInfo.renderPass = m_Context.RenderPass;
+        renderPassBeginInfo.renderPass = m_SolidShader->GetRenderPass();
         renderPassBeginInfo.framebuffer = m_Context.SwapchainFramebuffers[m_Context.ImageIndex];
         renderPassBeginInfo.renderArea.offset = { 0, 0 };
         renderPassBeginInfo.renderArea.extent = m_Context.SwapchainExtent;
@@ -63,7 +74,7 @@ namespace Sylver {
 
         vkCmdBeginRenderPass(m_Context.CommandBuffers[m_Context.CurrentFrame], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-        vkCmdBindPipeline(m_Context.CommandBuffers[m_Context.CurrentFrame], VK_PIPELINE_BIND_POINT_GRAPHICS, m_Context.GraphicsPipeline);
+        vkCmdBindPipeline(m_Context.CommandBuffers[m_Context.CurrentFrame], VK_PIPELINE_BIND_POINT_GRAPHICS, m_SolidShader->GetPipeline());
 
         VkViewport viewport{};
         viewport.x = 0.0f;
@@ -78,28 +89,29 @@ namespace Sylver {
         scissor.offset = { 0, 0 };
         scissor.extent = m_Context.SwapchainExtent;
         vkCmdSetScissor(m_Context.CommandBuffers[m_Context.CurrentFrame], 0, 1, &scissor);
+        
 
 
         return true;
     }
-    bool VulkanRenderer::DrawSprite(glm::vec2 pos, glm::vec2 size, u8* texture) {
-        return true;
-    }
-    bool VulkanRenderer::DrawSprite(f32 x, f32 y, f32 w, f32 h, u8* texture) {
-        return true;
-    }
-    bool VulkanRenderer::DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color) {
-        return true;
-    }
-    bool VulkanRenderer::DrawRect(f32 x, f32 y, f32 w, f32 h, glm::vec4 color) {
+    bool VulkanRenderer::Draw(const VertexArray& vertexArray, const Texture* texture){
+        VulkanBuffer vertexBuffer = m_Context.CreateVertexBuffer(vertexArray.Vertices);
+        VulkanBuffer indexBuffer = m_Context.CreateIndexBuffer(vertexArray.Indices);
+        m_Context.Buffers[m_Context.CurrentFrame].push_back(vertexBuffer);
+        m_Context.Buffers[m_Context.CurrentFrame].push_back(indexBuffer);
+
+        VkDeviceSize offset = 0;
+        vkCmdBindVertexBuffers(m_Context.CommandBuffers[m_Context.CurrentFrame], 0, 1, &vertexBuffer.Buffer, &offset);
+        vkCmdBindIndexBuffer(m_Context.CommandBuffers[m_Context.CurrentFrame], indexBuffer.Buffer, 0, VK_INDEX_TYPE_UINT32);
+        vkCmdBindDescriptorSets(m_Context.CommandBuffers[m_Context.CurrentFrame], VK_PIPELINE_BIND_POINT_GRAPHICS, m_SolidShader->GetPipelineLayout(), 0, 1, &m_SolidShader->GetDescriptorSets()[m_Context.CurrentFrame], 0, nullptr);
+        vkCmdDrawIndexed(m_Context.CommandBuffers[m_Context.CurrentFrame], static_cast<u32>(vertexArray.Indices.size()), 1, 0, 0, 0);
+
         return true;
     }
 
     bool VulkanRenderer::EndFrame() {
         VkDeviceSize offset = 0;
-        vkCmdBindVertexBuffers(m_Context.CommandBuffers[m_Context.CurrentFrame], 0, 1, &m_Context.VertexBuffer, &offset);
-        vkCmdBindIndexBuffer(m_Context.CommandBuffers[m_Context.CurrentFrame], m_Context.IndexBuffer, 0, VK_INDEX_TYPE_UINT16);
-        vkCmdDrawIndexed(m_Context.CommandBuffers[m_Context.CurrentFrame], static_cast<u32>(indices.size()), 1, 0, 0, 0);
+
 
         vkCmdEndRenderPass(m_Context.CommandBuffers[m_Context.CurrentFrame]);
 
@@ -149,6 +161,8 @@ namespace Sylver {
 
     void VulkanRenderer::Clean() {
         vkDeviceWaitIdle(m_Context.Device);
+        delete m_SolidShader;
         m_Context.Clean();
     }
+
 }    // namespace Sylver

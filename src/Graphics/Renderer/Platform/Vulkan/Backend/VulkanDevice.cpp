@@ -72,6 +72,7 @@ namespace Sylver {
         VULKAN_CREATED("VkDevice");
         vkGetDeviceQueue(Device, indices.graphicsFamily.value(), 0, &GraphicsQueue);
         vkGetDeviceQueue(Device, indices.presentFamily.value(), 0, &PresentQueue);
+        GraphicsQueueFamily = indices.graphicsFamily.value();
 
 
         return true;

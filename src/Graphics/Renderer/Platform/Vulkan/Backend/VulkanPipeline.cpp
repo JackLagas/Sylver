@@ -3,10 +3,37 @@
 #include "VulkanShaderModule.hpp"
 #include <Core/Files.hpp>
 
-#include "../VulkanVertex.hpp"
+#include <Graphics/Renderer/Vertex.hpp>
 
 
 namespace Sylver {
+    static VkVertexInputBindingDescription GetBindingDescription() {
+        VkVertexInputBindingDescription bindingDescription{};
+        bindingDescription.binding = 0;
+        bindingDescription.stride = Vertex::Stride();
+        bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+        return bindingDescription;
+    }
+    static std::array<VkVertexInputAttributeDescription, 3> GetAttributeDescriptions() {
+        std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions;
+
+        attributeDescriptions[0].binding = 0;
+        attributeDescriptions[0].location = 0;
+        attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+        attributeDescriptions[0].offset = offsetof(Vertex, Position);
+
+        attributeDescriptions[1].binding = 0;
+        attributeDescriptions[1].location = 1;
+        attributeDescriptions[1].format = VK_FORMAT_R32G32_SFLOAT;
+        attributeDescriptions[1].offset = offsetof(Vertex, TexCoords);
+
+        attributeDescriptions[2].binding = 0;
+        attributeDescriptions[2].location = 2;
+        attributeDescriptions[2].format = VK_FORMAT_R32G32B32A32_SFLOAT;
+        attributeDescriptions[2].offset = offsetof(Vertex, Color);
+
+        return attributeDescriptions;
+    }
 
     bool VulkanContext::CreateRenderPass() {
         VkAttachmentDescription colorAttachment{};
@@ -53,6 +80,7 @@ namespace Sylver {
 
         return true;
     }
+    /*
     bool VulkanContext::CreateGraphicsPipeline() {
 
         VulkanShaderModule* shaderModule = VulkanShaderModule::Create(Device, Allocator, VulkanShaderModule::eShaderModule::BASIC);
@@ -63,8 +91,8 @@ namespace Sylver {
 
         VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        auto bindingDescription = Vertex::GetBindingDescription();
-        auto attributeDescriptions = Vertex::GetAttributeDescriptions();
+        auto bindingDescription = GetBindingDescription();
+        auto attributeDescriptions = GetAttributeDescriptions();
         vertexInputInfo.vertexBindingDescriptionCount = 1;
         vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
         vertexInputInfo.vertexAttributeDescriptionCount = static_cast<u32>(attributeDescriptions.size());
@@ -169,5 +197,6 @@ namespace Sylver {
         delete shaderModule;
         return true;
     }
+*/
 
 }    // namespace Sylver

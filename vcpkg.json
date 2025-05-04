@@ -7,7 +7,18 @@
     "nlohmann-json",
     "opengl",
     "spdlog",
+    "stb",
     "vulkan",
-    "vulkan-utility-libraries"
+    "vulkan-utility-libraries",
+    "entt",
+    {
+        "name":"imgui", 
+        "features": [
+            "docking-experimental", 
+            "glfw-binding", 
+            "vulkan-binding",
+            "opengl3-binding"
+        ]
+    }
   ]
 }

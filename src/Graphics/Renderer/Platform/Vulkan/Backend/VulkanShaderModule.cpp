@@ -2,8 +2,8 @@
 
 #include <Core/Logger.hpp>
 
-#include <Shaders/Basic_frag_spv.h>
-#include <Shaders/Basic_vert_spv.h>
+#include <Shaders/Vulkan/Basic_frag_spv.h>
+#include <Shaders/Vulkan/Basic_vert_spv.h>
 
 namespace Sylver {
 

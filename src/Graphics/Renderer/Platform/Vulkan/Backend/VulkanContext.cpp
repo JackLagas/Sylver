@@ -28,6 +28,7 @@ namespace Sylver {
             Logger::Critical("Failed to create VkSurfaceKHR");
             return false;
         }
+        Buffers.resize(MAX_FRAMES_IN_FLIGHT);
 
         if (!PickPhysicalDevice()) {
             return false;
@@ -44,19 +45,15 @@ namespace Sylver {
         if (!CreateRenderPass()) {
             return false;
         }
+        /*
         if (!CreateGraphicsPipeline()) {
             return false;
         }
+        */
         if (!CreateFramebuffers()) {
             return false;
         }
         if (!CreateCommandPool()) {
-            return false;
-        }
-        if (!CreateVertexBuffer()) {
-            return false;
-        }
-        if (!CreateIndexBuffer()) {
             return false;
         }
         if (!CreateCommandBuffer()) {
@@ -71,23 +68,27 @@ namespace Sylver {
     void VulkanContext::Clean() {
 
 
-        for (usize i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        for (sizet i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
             vkDestroySemaphore(Device, ImageAvailableSemaphores[i], Allocator);
             vkDestroySemaphore(Device, RenderFinishedSemaphores[i], Allocator);
             vkDestroyFence(Device, InFlightFences[i], Allocator);
         }
         vkDestroyCommandPool(Device, CommandPool, Allocator);
 
+        for(auto buffers: Buffers){
+            for(auto buffer: buffers){
+                DestroyBuffer(buffer);
+            }
+        }
+        
+
         CleanupSwapchain();
 
-        vkDestroyBuffer(Device, IndexBuffer, Allocator);
-        vkFreeMemory(Device, IndexBufferMemory, Allocator);
 
-        vkDestroyBuffer(Device, VertexBuffer, Allocator);
-        vkFreeMemory(Device, VertexBufferMemory, Allocator);
-
+        /*
         vkDestroyPipeline(Device, GraphicsPipeline, Allocator);
         vkDestroyPipelineLayout(Device, PipelineLayout, Allocator);
+        */
         vkDestroyRenderPass(Device, RenderPass, Allocator);
 
         vkDestroyDevice(Device, Allocator);
@@ -171,7 +172,7 @@ namespace Sylver {
         fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
         fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-        for (usize i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        for (sizet i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
             if (vkCreateSemaphore(Device, &semaphoreCreateInfo, Allocator, &ImageAvailableSemaphores[i]) != VK_SUCCESS) {
                 Logger::Critical("Failed to create VkSemaphore");
                 return false;

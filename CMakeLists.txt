@@ -33,12 +33,15 @@ set(SYLVER_OUTPUT_DIR ${CMAKE_BINARY_DIR}/${SYLVER_OS}-${SYLVER_SYSTEM_ARCH})
 
 
 find_package(fmt CONFIG REQUIRED)
+find_package(Stb REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(EnTT CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(Vulkan REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(imgui CONFIG REQUIRED)
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SYLVER_OUTPUT_DIR})
@@ -72,6 +75,7 @@ add_dependencies(Sylver SylverShaders)
 target_include_directories(Sylver 
     PRIVATE src
     PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include
+    PRIVATE ${Stb_INCLUDE_DIR}
 )
 
 target_precompile_headers(Sylver
@@ -86,6 +90,8 @@ target_link_libraries(Sylver PRIVATE
     Vulkan::Vulkan
     glad::glad
     OpenGL::GL
+    EnTT::EnTT
+    imgui::imgui
 )
 
 add_custom_command(TARGET Sylver PRE_BUILD

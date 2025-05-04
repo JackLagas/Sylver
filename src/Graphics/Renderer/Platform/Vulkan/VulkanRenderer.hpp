@@ -2,22 +2,24 @@
 
 #include <Graphics/Renderer.hpp>
 #include "Backend/VulkanContext.hpp"
+#include "VulkanShader.hpp"
+#include <Graphics/Renderer/MVP.hpp>
+
 
 namespace Sylver {
     class VulkanRenderer : public Renderer {
         private:
             VulkanContext m_Context{};
-
+            VulkanShader* m_SolidShader{nullptr};
+            MVP m_MVP;
         public:
             VulkanRenderer(u32 width, u32 height, const Config& cfg);
             ~VulkanRenderer();
 
             bool BeginFrame() override;
-            bool DrawSprite(glm::vec2 pos, glm::vec2 size, u8* texture) override;
-            bool DrawSprite(f32 x, f32 y, f32 w, f32 h, u8* texture) override;
-            bool DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }) override;
-            bool DrawRect(f32 x, f32 y, f32 w, f32 h, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }) override;
+            bool Draw(const VertexArray& vertexArray, const Texture* texture) override;
             bool EndFrame() override;
+
 
 
         private:

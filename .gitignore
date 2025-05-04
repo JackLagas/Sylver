@@ -1,6 +1,5 @@
 
 # Build Files
-out/
 build/
 .cache/
 vcpkg_installed/

@@ -3,26 +3,8 @@
 #include <Core/Logger.hpp>
 #include <vulkan/vulkan.h>
 
-// TODO: Temporary
-#include "../VulkanVertex.hpp"
-
 
 namespace Sylver {
-    // TODO: Temporary
-    const std::vector<Vertex> vertices = {
-        { { -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
-        { { 0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
-        { { 0.5f, 0.5f }, { 0.0f, 0.0f, 1.0f, 1.0f } },
-        { { -0.5f, 0.5f }, { 1.0f, 1.0f, 1.0f, 1.0f } }
-    };
-    const std::vector<u16> indices = {
-        0,
-        1,
-        2,
-        2,
-        3,
-        0
-    };
     const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
     };

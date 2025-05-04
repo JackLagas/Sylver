@@ -5,6 +5,8 @@
 #include <Graphics/Window.hpp>
 
 #include <Core/Config.hpp>
+#include "Renderer/VertexArray.hpp"
+#include "Renderer/Texture.hpp"
 
 
 namespace Sylver {
@@ -18,10 +20,7 @@ namespace Sylver {
             };
 
             virtual bool BeginFrame() = 0;
-            virtual bool DrawSprite(glm::vec2 pos, glm::vec2 size, u8* texture) = 0;
-            virtual bool DrawSprite(f32 x, f32 y, f32 w, f32 h, u8* texture) = 0;
-            virtual bool DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }) = 0;
-            virtual bool DrawRect(f32 x, f32 y, f32 w, f32 h, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }) = 0;
+            virtual bool Draw(const VertexArray& vertexArray, const Texture* texture) = 0;
             virtual bool EndFrame() = 0;
 
             bool ShouldClose() const {

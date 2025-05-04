@@ -7,6 +7,7 @@
 #include "GLFW_Keys.hpp"
 
 
+
 namespace Sylver {
 
     //
@@ -83,7 +84,7 @@ namespace Sylver {
     }
 
 
-    GLFW_Window::GLFW_Window(const std::string& title, u32 width, u32 height, const Config& cfg) {
+    GLFW_Window::GLFW_Window(const std::string& title, u32 width, u32 height, const Config& cfg): m_Backend(cfg.RendererBackend) {
         glfwInit();
 
         if (cfg.RendererBackend == Config::eRenderer::VULKAN) {

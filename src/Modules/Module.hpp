@@ -2,6 +2,7 @@
 
 #include <Defines.hpp>
 #include <Common/Version.hpp>
+#include <fmt/core.h>
 
 
 namespace Sylver {

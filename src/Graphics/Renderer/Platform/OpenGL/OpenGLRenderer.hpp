@@ -1,19 +1,21 @@
 #pragma once
 
 #include <Graphics/Renderer.hpp>
+#include "OpenGLShader.hpp"
+#include <Graphics/Renderer/Camera.hpp>
 
 namespace Sylver {
     class OpenGLRenderer : public Renderer {
         private:
+            OpenGLShader* m_TextureShader;
+            OpenGLShader* m_SolidShader;
+            Camera m_Camera;
         public:
             OpenGLRenderer(u32 width, u32 height, const Config& cfg);
             ~OpenGLRenderer();
 
             bool BeginFrame() override;
-            bool DrawSprite(glm::vec2 pos, glm::vec2 size, u8* texture) override;
-            bool DrawSprite(f32 x, f32 y, f32 w, f32 h, u8* texture) override;
-            bool DrawRect(glm::vec2 pos, glm::vec2 size, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }) override;
-            bool DrawRect(f32 x, f32 y, f32 w, f32 h, glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }) override;
+            bool Draw(const VertexArray& vertexArray, const Texture* texture) override;
             bool EndFrame() override;
     };
 }    // namespace Sylver

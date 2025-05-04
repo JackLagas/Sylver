@@ -26,7 +26,6 @@ namespace Sylver {
 
             virtual void WaitForEvent() = 0;
 
-
             virtual std::vector<const char*> GetRequiredExtensions() const = 0;
             virtual VkResult CreateWindowSurface(VkInstance, const VkAllocationCallbacks*, VkSurfaceKHR*) = 0;
             virtual bool LoadGlad() = 0;

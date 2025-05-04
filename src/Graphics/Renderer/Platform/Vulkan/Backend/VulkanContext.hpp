@@ -4,6 +4,9 @@
 
 #include <Graphics/Window.hpp>
 
+#include <Graphics/Renderer/VertexArray.hpp>
+#include "VulkanBuffer.hpp"
+
 
 namespace Sylver {
     struct QueueFamilyIndices {
@@ -40,25 +43,31 @@ namespace Sylver {
             std::vector<VkFramebuffer> SwapchainFramebuffers{};
             bool FramebufferResized{ false };
             VkRenderPass RenderPass{};
+            /*
             VkPipelineLayout PipelineLayout{};
             VkPipeline GraphicsPipeline{};
+            */
             VkCommandPool CommandPool{};
             std::vector<VkCommandBuffer> CommandBuffers{};
+            std::vector<std::vector<VulkanBuffer>> Buffers;
             std::vector<VkSemaphore> ImageAvailableSemaphores{};
             std::vector<VkSemaphore> RenderFinishedSemaphores{};
             std::vector<VkFence> InFlightFences{};
             u32 ImageIndex{ 0 };
             u32 CurrentFrame{ 0 };
-            VkBuffer VertexBuffer{};
-            VkDeviceMemory VertexBufferMemory{};
-            VkBuffer IndexBuffer{};
-            VkDeviceMemory IndexBufferMemory{};
+            u32 ImageCount{0};
+            u32 GraphicsQueueFamily{0};
 
 
             bool Init(Window* window);
             void Clean();
 
             void RecreateSwapchain();
+
+            VulkanBuffer CreateVertexBuffer(const std::vector<Vertex>& vertices);
+            VulkanBuffer CreateIndexBuffer(const std::vector<u32>& indices);
+
+            void DestroyBuffer(VulkanBuffer buffer);
 
 
         private:
@@ -79,15 +88,14 @@ namespace Sylver {
             bool CreateFramebuffers();
             void CleanupSwapchain();
             bool CreateRenderPass();
+            /*
             bool CreateGraphicsPipeline();
+            */
             bool CreateCommandPool();
             bool CreateCommandBuffer();
             bool CreateSyncObjects();
-            u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties);
             void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
             void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-            bool CreateVertexBuffer();
-            bool CreateIndexBuffer();
     };
 }    // namespace Sylver
 

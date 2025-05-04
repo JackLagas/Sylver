@@ -10,6 +10,7 @@ namespace Sylver {
     class GLFW_Window : public Window {
         private:
             GLFWwindow* m_WindowHandle;
+            Config::eRenderer m_Backend;
 
         public:
             GLFW_Window(const std::string& title, u32 width, u32 height, const Config& cfg);

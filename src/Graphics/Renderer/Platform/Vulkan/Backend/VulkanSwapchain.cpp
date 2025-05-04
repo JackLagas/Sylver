@@ -25,15 +25,15 @@ namespace Sylver {
         VkPresentModeKHR presentMode = ChooseSwapPresentMode(swapchainSupport.presentModes);
         VkExtent2D extent = ChooseSwapExtent(swapchainSupport.capabilities);
 
-        u32 imageCount = swapchainSupport.capabilities.minImageCount + 1;
-        if (swapchainSupport.capabilities.maxImageCount > 0 && imageCount > swapchainSupport.capabilities.maxImageCount) {
-            imageCount = swapchainSupport.capabilities.maxImageCount;
+        ImageCount = swapchainSupport.capabilities.minImageCount + 1;
+        if (swapchainSupport.capabilities.maxImageCount > 0 && ImageCount > swapchainSupport.capabilities.maxImageCount) {
+            ImageCount = swapchainSupport.capabilities.maxImageCount;
         }
 
         VkSwapchainCreateInfoKHR createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
         createInfo.surface = Surface;
-        createInfo.minImageCount = imageCount;
+        createInfo.minImageCount = ImageCount;
         createInfo.imageFormat = surfaceFormat.format;
         createInfo.imageColorSpace = surfaceFormat.colorSpace;
         createInfo.imageExtent = extent;
@@ -64,9 +64,9 @@ namespace Sylver {
         }
         VULKAN_CREATED("VkSwapchainKHR");
 
-        vkGetSwapchainImagesKHR(Device, Swapchain, &imageCount, nullptr);
-        SwapchainImages.resize(imageCount);
-        vkGetSwapchainImagesKHR(Device, Swapchain, &imageCount, SwapchainImages.data());
+        vkGetSwapchainImagesKHR(Device, Swapchain, &ImageCount, nullptr);
+        SwapchainImages.resize(ImageCount);
+        vkGetSwapchainImagesKHR(Device, Swapchain, &ImageCount, SwapchainImages.data());
 
         SwapchainImageFormat = surfaceFormat.format;
         SwapchainExtent = extent;
@@ -75,7 +75,7 @@ namespace Sylver {
     }
     bool VulkanContext::CreateImageViews() {
         SwapchainImageViews.resize(SwapchainImages.size());
-        for (usize i = 0; i < SwapchainImages.size(); i++) {
+        for (sizet i = 0; i < SwapchainImages.size(); i++) {
             VkImageViewCreateInfo createInfo{};
             createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
             createInfo.image = SwapchainImages[i];
@@ -103,7 +103,7 @@ namespace Sylver {
     bool VulkanContext::CreateFramebuffers() {
         SwapchainFramebuffers.resize(SwapchainImageViews.size());
 
-        for (usize i = 0; i < SwapchainImageViews.size(); i++) {
+        for (sizet i = 0; i < SwapchainImageViews.size(); i++) {
             VkImageView attachments[] = {
                 SwapchainImageViews[i]
             };

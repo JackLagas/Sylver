@@ -1,3 +1,5 @@
+#include <stb_image.h>
+
 #include "Application.hpp"
 
 #include "Logger.hpp"
@@ -9,6 +11,9 @@
 
 #include <Binary/Writer.hpp>
 #include <Binary/Reader.hpp>
+#include <Graphics/Renderer/VertexArray.hpp>
+#include <Graphics/Renderer/Platform/OpenGL/OpenGLTexture.hpp>
+#include <Graphics/Renderer/Camera.hpp>
 
 namespace Sylver {
     Application::Application(std::vector<std::string> cmdArgs) {
@@ -23,17 +28,22 @@ namespace Sylver {
         appConfig.RendererWidth = 1920;
         appConfig.RendererHeight = 1080;
         if (appConfig.RendererBackend == Config::eRenderer::NONE) {
-            appConfig.RendererBackend = Config::eRenderer::OPENGL;
+            appConfig.RendererBackend = Config::eRenderer::VULKAN;
         }
 
         m_Renderer = Renderer::Create(appConfig);
+
+
+        VertexArray pink = VertexArray::Create({50, 50}, {500, 500}, {1.0f, 0.82f, 0.86f, 1.0f});
+        
+        stbi_set_flip_vertically_on_load(true);
 
 
         while (!m_Renderer->ShouldClose()) {
             if (!m_Renderer->BeginFrame()) {
                 continue;
             }
-            m_Renderer->DrawRect({ -0.9f, -0.9f }, { 1.8f, 1.8f }, { 0.8f, 0.2f, 0.6f, 1.0f });
+            m_Renderer->Draw(pink, nullptr);
 
             m_Renderer->EndFrame();
         }
