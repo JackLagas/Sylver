@@ -11,7 +11,7 @@
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build",
-            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            "toolchainFile": "${sourceDir}/cmake/ToolchainBase.cmake"
         },
         {
             "name": "default",
@@ -23,7 +23,7 @@
             "displayName": "Debug Config",
             "inherits": "base",
             "cacheVariables": {
-                  "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         }
     ]

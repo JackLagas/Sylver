@@ -3,6 +3,7 @@
 build/
 .cache/
 vcpkg_installed/
+bin/
 
 // Generated Files
 *.log
